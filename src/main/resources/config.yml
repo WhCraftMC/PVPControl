@@ -11,11 +11,11 @@ Settings:
   TitleMessage: true
 
   # 是否开启战斗模式后 满饱食度不回复生命值
-  NoLifeRecovery: true
+  NoLifeRecovery: false
 
 #语言文件设置
 Language:
-  NoPermission: "&c你没有任何权限"
+  NoPermission: "&c你没有权限"
   SucessfullyReload: "&a成功重载插件"
   CancelAttack: "&6无法攻击对方!你是和平模式"
   CancelAttack2: "&6无法攻击对方!对方是和平模式"
@@ -24,7 +24,7 @@ Language:
   ToggleMode: "&b成功设置自身PVP模式为 &c%pvpcontrol_mode%"
   AdminSetPVPMode: "&b已成功为 %player% 设置模式为 &c%pvpcontrol_mode%"
   AttackStates: "&c你已进入战斗模式! 无法通过满饱食度回复生命"
-  DantiaoStart: "&b单挑已开始，你的模式被切换成 &c对决模式"
 
+#禁用的世界
 DisableWorld:
   - PVPWORLD
