@@ -13,23 +13,31 @@ public class DamageListener implements Listener {
     @EventHandler
     public void Damage(EntityDamageByEntityEvent e){
         if (e.isCancelled()) {
-            return;
+            return; // 屏蔽已取消的
         }
+
+        // 是玩家
         if (e.getDamager() instanceof Player){
-            if (e.getEntity() instanceof Player){
+            // 攻击者是玩家
+            if (e.getEntity() instanceof Player Victim){
                 for (String s : Main.disableWorld ) {
                     if (e.getDamager().getWorld().getName().contains(s) && e.getEntity().getWorld().getName().contains(s)){
-                        return;
+                        return; // 屏蔽禁用的世界
                     }
                 }
-                Player Victim = (Player)e.getEntity();
-                Player Attacker = (Player)e.getDamager();
+
+                // 攻击者
+                Player Attacker = (Player)e.getDamager(); // 被攻击者
+
+                // 如果玩家状态为和平，取消攻击
                 if (!(Main.pvpmode.get(Attacker.getUniqueId()))){
                     Utils.Message(Attacker, ConfigManager.getPrefix() + ConfigManager.getCancelAttack());
                     e.setCancelled(true);
                     e.setDamage(0);
                     return;
                 }
+
+                // 如果玩家状态为和平，取消攻击
                 if (!(Main.pvpmode.get(Victim.getUniqueId()))){
                     Utils.Message(Attacker, ConfigManager.getPrefix() + ConfigManager.getCancelAttack2());
                     e.setCancelled(true);
@@ -38,15 +46,22 @@ public class DamageListener implements Listener {
                 }
             }
         }
-        if (e.getDamager() instanceof Projectile){
+
+        // 是抛射物
+        if (e.getDamager() instanceof Projectile) {
+            // 攻击者是玩家
             if (e.getEntity() instanceof Player){
                 for (String s : Main.disableWorld ) {
                     if (e.getDamager().getWorld().getName().contains(s) && e.getEntity().getWorld().getName().contains(s)){
                         return;
                     }
                 }
+                //获取抛射物
                 Projectile projectile = (Projectile)e.getDamager();
+
+                // 抛射物发射者是玩家
                 if (projectile.getShooter() instanceof Player){
+                    // 如果玩家状态为和平，取消攻击
                     if (!(Main.pvpmode.get(((Player) projectile.getShooter()).getUniqueId()))){
                         Utils.Message((Player)projectile.getShooter(), ConfigManager.getPrefix() + ConfigManager.getCancelAttack());
                         e.setCancelled(true);
@@ -54,15 +69,18 @@ public class DamageListener implements Listener {
                         return;
                     }
                 }
+
                 if (!(Main.pvpmode.get(e.getEntity().getUniqueId()))){
-                    Utils.Message((Player) projectile.getShooter(), ConfigManager.getPrefix() + ConfigManager.getCancelAttack2());
-                    e.setCancelled(true);
-                    e.setDamage(0);
-                    return;
+                    // 发射者是玩家，取消攻击
+                    if (projectile.getShooter() instanceof Player) {
+                        Utils.Message((Player) projectile.getShooter(), ConfigManager.getPrefix() + ConfigManager.getCancelAttack2());
+                        e.setCancelled(true);
+                        e.setDamage(0);
+                    }
+                    // 不是玩家
                 }
 
             }
         }
     }
-
 }
